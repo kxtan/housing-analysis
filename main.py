@@ -32,8 +32,21 @@ def calc_cagr(price_df, column, date_col="DATE"):
 
 price_index_types = ["real","nominal"]
 
+st.title("Housing Price Analysis")
 
-st.header("Housing Price Analysis")
+introductory_text = "This dashboard is created to analyse a country's ({}) property prices \
+\nbased on publicly available data. Users can adjust the values using the left \
+\ndrop down to suit their scenario.".format("Malaysia") 
+
+st.text(introductory_text)
+
+st.header("Capital Growth")
+
+cg_text = "This section looks at the capital growth of purchasing a property at the specified \
+\npoint of time. The chart belows show the projected change in future and backadjust \
+\nto look at expected values prior to the purchase date."
+
+st.text(cg_text)
 
 index_type = st.sidebar.radio("Type", price_index_types, index=0)
 initial_purchase_price = st.sidebar.number_input("Purchase Price", min_value=1, value=500000)
@@ -73,8 +86,17 @@ cumu_fig.add_trace(
     )
 )
 
+cumu_fig.add_trace(
+    go.Scatter(
+        x=[pd.Timestamp(date_purchased)],
+        y=[initial_purchase_price],
+        mode="markers",
+        name="Purchased Date"
+    )
+)
+
 cumu_fig.update_layout(
-    title = "Capital Growth",
+    title = "Capital Growth Chart",
     xaxis_title="Date",
     yaxis_title="Price"
 )
@@ -82,9 +104,12 @@ cumu_fig.update_layout(
 cumu_fig
 
 cagr = calc_cagr(prop_prices_df, "cumu_capital")
-cagr
+
+st.write("Historical CAGR : {0:.2f}%".format(cagr * 100))
 
 if show_raw_data:
     prop_prices_df
+
+st.subheader("Observations")
 
 
