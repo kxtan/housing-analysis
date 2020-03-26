@@ -44,14 +44,14 @@ st.header("Capital Growth")
 
 cg_text = "This section looks at the capital growth of purchasing a property at the specified \
 \npoint of time. The chart belows show the projected change in future and backadjust \
-\nto look at expected values prior to the purchase date."
+\nto look at expected values prior to the purchase date"
 
 st.text(cg_text)
 
 index_type = st.sidebar.radio("Type", price_index_types, index=0)
 initial_purchase_price = st.sidebar.number_input("Purchase Price", min_value=1, value=500000)
 date_purchased = st.sidebar.date_input("Date Purchased", value=dt.date(1988, 1, 1))
-show_raw_data = st.sidebar.checkbox("Show Raw Data", value=True)
+show_raw_data = st.sidebar.checkbox("Show Raw Data", value=False)
 
 
 ### Import file
@@ -105,11 +105,16 @@ cumu_fig
 
 cagr = calc_cagr(prop_prices_df, "cumu_capital")
 
-st.write("Historical CAGR : {0:.2f}%".format(cagr * 100))
+st.text("Historical CAGR : {0:.2f}%".format(cagr * 100))
 
 if show_raw_data:
     prop_prices_df
 
 st.subheader("Observations")
 
+observation_text = "1. There's a ~20% drawdown during the 1998 Asian Financial Crisis(AFC). \
+\n2. But the drawdown during the 2008 Global Financial Crisis(GFC) is relatively small. \
+\n3. Growth during the period between AFC and GFC is low. \
+\n4. Post GFC growth is relatively huge."
 
+st.text(observation_text)
